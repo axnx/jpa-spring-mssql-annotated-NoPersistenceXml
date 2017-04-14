@@ -13,7 +13,6 @@ import de.storost.spring.tx.user.UserManager;
 
 public class Main {
 	public static void main(String[] args) {
-
 		 
 		//ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class, HelloWorldBean.class);

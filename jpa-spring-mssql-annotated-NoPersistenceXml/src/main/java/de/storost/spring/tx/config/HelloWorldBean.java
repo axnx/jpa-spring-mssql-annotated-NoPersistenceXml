@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import de.storost.spring.tx.HelloWorld;
 
 @Component
-@PropertySource("classpath:app.properties")
+//@PropertySource("classpath:app.properties")
 public class HelloWorldBean {
 
 	@Value("${my.message}") 

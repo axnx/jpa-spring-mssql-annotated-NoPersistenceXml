@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -22,18 +24,39 @@ import de.storost.spring.tx.HelloWorld;
 
 @Configuration
 @ComponentScan({"de.storost.spring.tx.dao.impl","de.storost.spring.tx.user.impl"})
-@PropertySource("classpath:app.properties")
+//@PropertySource("classpath:app.properties")
 //@ComponentScan(basePackageClasses = {ExampleController.class, ExampleModel.class, ExmapleView.class})
 @EnableTransactionManagement
 public class Config {
 	
 	//To resolve ${} in @Value
+	//http://shengwangi.blogspot.de/2015/07/how-to-set-dev-test-prod-in-spring-javaconfig.html
 	@Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-		PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+		
+		Resource resource;
+	    String activeProfile;
+		
+	    PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
 	    //configurer.setIgnoreUnresolvablePlaceholders(true);
 	    //configurer.setIgnoreResourceNotFound(true);
-	    return configurer;
+		
+		 // get active profile
+	    activeProfile = System.getProperty("spring.profiles.active");
+	 
+	    // choose different property files for different active profile
+	    if ("development".equals(activeProfile)) {
+	      resource = new ClassPathResource("/META-INF/development.properties");
+	    } else if ("test".equals(activeProfile)) {
+	      resource = new ClassPathResource("/META-INF/test.properties");
+	    } else {
+	      resource = new ClassPathResource("/META-INF/production.properties");
+	    }
+	     
+	    // load the property file
+	    propertySourcesPlaceholderConfigurer.setLocation(resource);
+		
+	    return propertySourcesPlaceholderConfigurer;
     }
 	
 	
