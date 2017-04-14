@@ -1,0 +1,10 @@
+package de.storost.spring.tx;
+
+public class Test {
+
+	public static void main(String[] args) {
+		System.out.println("test");
+
+	}
+
+}

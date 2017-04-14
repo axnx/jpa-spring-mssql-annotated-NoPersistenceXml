@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.3.xsd 
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<tx:annotation-driven />
+	<context:annotation-config/>
+	
+	<context:component-scan base-package="de.storost.spring.tx.dao.impl" />
+	<context:component-scan base-package="de.storost.spring.tx.user.impl" />
+
+<!-- 
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location" value="classpath:app.properties" />
+ 	</bean> 
+  -->	
+
+ 	 <context:property-placeholder location="classpath:/app.properties" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	
+	</bean>
+
+
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="de.storost.spring.tx.model" />
+	</bean>
+	
+	<bean id = "helloWorld" class = "de.storost.spring.tx.HelloWorld" init-method = "init" 
+      destroy-method = "destroy">
+      <property name = "message" value = "${db.username}"/>
+   </bean>
+   
+   <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" id="jpaVendorAdapter">
+	 <property name="databasePlatform" value="org.hibernate.dialect.SQLServerDialect"/>
+	 <property name="showSql" value="true"/>
+	</bean>	
+   
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+</beans>
