@@ -1,3 +1,4 @@
-Startparameter:
+Startparameter: VM Arguments
 
 -Dspring.profiles.active=development
+-Dspring.profiles.active=test
