@@ -6,10 +6,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import de.storost.spring.tx.HelloWorld;
 
-@Configuration
+@Component
 @PropertySource("classpath:app.properties")
 public class HelloWorldBean {
 
