@@ -16,5 +16,8 @@ public class HelloWorld  {
    public void destroy() {
       System.out.println("Bean will destroy now.");
    }
+   public void print() {
+       System.out.println("print your Message : " + message);
+   }
 	
 }
