@@ -19,5 +19,14 @@ public class HelloWorld  {
    public void print() {
        System.out.println("print your Message : " + message);
    }
+   
+   public String returnMessage() {
+	      return message;   
+   }
+   
+   public String test() {
+      return "test";
+   }
+   
 	
 }
